@@ -13,9 +13,10 @@ npmで公開されているパッケージを、GoogleAppsScript（GAS）のラ�
 
 ### 利用可能なライブラリ
 
-| ライブラリ名 | スクリプトID | 説明 |
+| ライブラリ名 | スクリプトID | 説明 | 公式HP |
 | :--- | :--- | :--- |
-| `diff` | `1cGsS5kFEuRxs4q4huY9zeEJKqwGuOpy3XIm9ZByWltW8ruS7czrMz1Rx` | テキストの差分を比較するためのライブラリ（[diff](https://www.npmjs.com/package/diff)） |
+| `diff` | `1cGsS5kFEuRxs4q4huY9zeEJKqwGuOpy3XIm9ZByWltW8ruS7czrMz1Rx` | テキストの差分を比較するためのライブラリ | [diff](https://github.com/kpdecker/jsdiff) |
+| `luxon` | `1nTyDY64s57_wk2r8zOSz6fauz_Kt4l4BY74eajkHwR3RLPQ3P2p6PtN5` | 日付や時間を操作するためのライブラリ | [luxon](https://moment.github.io/luxon) |
 
 ### 使用例 (`diff`ライブラリ)
 
@@ -34,11 +35,29 @@ function myFunction() {
 }
 ```
 
+### 使用例 (`luxon`ライブラリ)
+
+```javascript
+function myFunction() {
+  // タイムゾーンを指定して現在の日時を取得
+  // ライブラリの識別子はデフォルトで 'luxon' になります
+  const dt = luxon.DateTime.now().setZone('Asia/Tokyo');
+
+  // 日時をフォーマットする
+  const formatted = dt.toFormat('yyyy-MM-dd HH:mm:ss');
+  console.log(`現在の日時 (東京): ${formatted}`);
+
+  // 1週間後の日時を計算する
+  const nextWeek = dt.plus({ weeks: 1 });
+  console.log(`1週間後の日時: ${nextWeek.toFormat('yyyy-MM-dd')}`);
+}
+```
+
 ## メンテナー向け (For Maintainers)
 
 ### プロジェクト概要
 
-このプロジェクトは、[rolldown](https://rolldown.rs/)を利用してnpmパッケージを単一のJavaScriptファイルにバンドルし、[clasp](https://github.com/google/clasp)を使ってGoogle Apps Scriptライブラリとしてデプロイします。
+このプロジェクトは、[rolldown](https://rolldown.rs/)を利用してnpmパッケージを単一のJavaScriptファイルにバンドルし、[clasp](https://github.com/google/clasp)を使ってGoogleAppsScriptライブラリとしてデプロイします。
 
 ### 環境構築
 
@@ -67,10 +86,8 @@ pnpm publish
 
 1. `lib`ディレクトリに新しいライブラリ用のディレクトリを作成します。（例: `lib/new-lib`）
 2. `appsscript.json`と`.clasp.json`を新しいディレクトリに作成します。
-   - `.clasp.json`には`clasp create`で取得した新しいスクリプトIDを記載します。
+   - `.clasp.json`にはGUIや`clasp create`で取得した新しいスクリプトIDを記載します。
 3. `main.ts`を作成し、ライブラリとして公開する関数やオブジェクトを定義します。
-4. `rolldown.config.ts`に新しいライブラリのエントリーポイントを追加します。
-5. `scripts/publish.ts`の`targets`配列に新しいライブラリ名を追加します。
 
 ### `.clasp.json`の管理について
 
