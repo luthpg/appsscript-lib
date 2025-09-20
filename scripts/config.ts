@@ -1,9 +1,10 @@
 import fs from 'node:fs';
+import type { JSONSchemaForNPMPackageJsonFiles } from '../types/packageJson';
 import { getLibraryNames } from './utils';
 
 export interface LibraryProperties {
   name: string;
-  version: string;
+  version: string | undefined;
   author: string;
   homepage: string;
 }
@@ -15,12 +16,23 @@ export const getLibraryProperties = (): LibraryProperties[] => {
       `node_modules/${lib}/package.json`,
       'utf-8',
     );
-    const { version, maintainers, author, repository, homepage } =
-      JSON.parse(packageJson);
+    const { version, maintainers, author, repository, homepage } = JSON.parse(
+      packageJson,
+    ) as JSONSchemaForNPMPackageJsonFiles;
+    const repositoryUrl =
+      typeof repository === 'string' ? repository : repository?.url;
     const [, repoOwner, repoName] =
-      repository?.url?.match(/github\.com\/(.+?)\/(.+?)\.git/) ?? [];
+      repositoryUrl?.match(/github\.com\/(.+?)\/(.+?)\.git/) ??
+      repositoryUrl?.match(/github\.com\/(.+?)\/(.+)$/) ??
+      [];
+    const maintainerName =
+      typeof maintainers?.[0] === 'string'
+        ? maintainers?.[0]
+        : maintainers?.[0]?.name;
     const authorName =
-      author?.name ?? maintainers?.[0]?.name ?? repoOwner ?? 'Unknown';
+      typeof author === 'string'
+        ? author
+        : (author?.name ?? maintainerName ?? repoOwner ?? 'Unknown');
 
     return {
       name: lib,
