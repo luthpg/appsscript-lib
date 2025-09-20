@@ -1,5 +1,7 @@
 # appsscript-lib
 
+[![README-en](https://img.shields.io/badge/English-blue?logo=ReadMe)](./README.md)
+
 npmで公開されているパッケージを、GoogleAppsScript（GAS）のライブラリとして利用できるように提供します。
 
 ## 利用者向け (For Users)
