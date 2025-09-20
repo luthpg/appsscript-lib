@@ -1,6 +1,6 @@
 # appsscript-lib
 
-![Static Badge](https://img.shields.io/badge/%E6%97%A5%E6%9C%AC%E8%AA%9E-blue?logo=ReadMe&link=%2FREADME.ja.md)
+[![README-ja](https://img.shields.io/badge/%E6%97%A5%E6%9C%AC%E8%AA%9E-blue?logo=ReadMe)](./README.ja.md)
 
 This project provides npm packages as a library for Google Apps Script (GAS).
 
